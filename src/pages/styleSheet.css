@@ -1,0 +1,52 @@
+.outer-container {
+    display: table;
+    padding-top: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.middle-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner-container {
+    border: 1px solid black;
+    display: inline-block;
+    padding: 80px 50px;
+    padding-top: 60px;
+}
+
+.inner-container form div {
+    display: inline-block;
+    text-align: left;
+}
+
+input:invalid {
+    box-shadow: 0 0 5px 1px red;
+}
+
+input:focus:invalid {
+    box-shadow: none;
+}
+
+input[type = "submit"] {
+    background-color: #41CBF6;
+}
+
+input[type = "submit"]:hover {
+    background-color: #31a5c9;
+}
+
+input[type="submit"], button { 
+    border: none;
+    border-radius: 5%;
+    padding: 3px 12px;
+}
+
+input[type="submit"]:hover, button:hover {
+    cursor: pointer;
+}
