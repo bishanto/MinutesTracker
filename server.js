@@ -10,8 +10,8 @@ const db = mysql.createPool({
 
    connectionLimit: 10,
    host: "db4free.net", 
-   user: "minutestracker", 
-   password: "cQEA7ZSdJY$L@m", 
+   user: "", 
+   password: "", 
    database: "minutesdb", 
 
 })
