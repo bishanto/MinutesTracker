@@ -25,11 +25,15 @@
     text-align: left;
 }
 
-input:invalid {
+input[type="text"], input[type="email"], input[type="password"] {
+    margin-bottom: 10px;
+}
+
+input:invalid[type="email"] {
     box-shadow: 0 0 5px 1px red;
 }
 
-input:focus:invalid {
+input:focus:invalid, input:blank:invalid {
     box-shadow: none;
 }
 
