@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+}
+
+.button {
+  padding: 15px 20px;
+  background-color: #41cbf6;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 180px;
+  align-self: center;
+}

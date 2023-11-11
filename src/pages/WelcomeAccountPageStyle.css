@@ -1,0 +1,22 @@
+.container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.align {
+  display: flex-start;
+}
+
+.min-container {
+  display: flex-start;
+  margin: auto;
+}
