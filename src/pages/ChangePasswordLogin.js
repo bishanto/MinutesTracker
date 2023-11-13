@@ -6,7 +6,7 @@ export const ChangePasswordLogin = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/changepassword');
+        navigate('/');
     };
 
     return (
