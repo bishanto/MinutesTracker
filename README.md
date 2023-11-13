@@ -12,6 +12,10 @@ npm install mysql --save
 
 npm install cors --save
 
+npm install axios --save
+
+npm install express --save
+
 ## Available Scripts
 
 In the project directory, you can run:
