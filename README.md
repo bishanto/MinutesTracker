@@ -2,6 +2,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Node Modules to Install
+
+Run these commands in the project directory:
+
+npm install npm-run-all --save
+npm install mysql --save
+npm install cors --save
+
 ## Available Scripts
 
 In the project directory, you can run:
