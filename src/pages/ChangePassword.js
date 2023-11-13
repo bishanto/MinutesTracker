@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import './styleSheet.css';
+import './LoginStyle.css';
 
 export const ChangePassword = () => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const ChangePassword = () => {
                         <h1>Change Password</h1>
                         <div>
                             Password:<br/>
-                            <input type="password" name="password" placeholder="Password" /><br/><br/>
+                            <input type="password" name="password" placeholder="Password" /><br/>
                             Confirm Password:<br/>
                             <input type="password" name="password-confirm" placeholder="Confirm Password" /><br/>
                         </div>

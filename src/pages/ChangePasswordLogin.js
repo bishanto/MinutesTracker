@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-import './styleSheet.css';
+import './LoginStyle.css';
 
 export const ChangePasswordLogin = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/');
+        navigate('/changepassword');
     };
 
     return (
@@ -17,7 +17,7 @@ export const ChangePasswordLogin = () => {
                         <h1>Login to change password</h1>
                         <div>
                             E-mail:<br/>
-                            <input type="email" name="email" placeholder="E-mail" /><br/><br/>
+                            <input type="email" name="email" placeholder="E-mail" /><br/>
                             Password:<br/>
                             <input type="password" name="password" placeholder="Password" /><br/>
                         </div>
