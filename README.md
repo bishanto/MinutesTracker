@@ -7,7 +7,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Run these commands in the project directory:
 
 npm install npm-run-all --save
+
 npm install mysql --save
+
 npm install cors --save
 
 ## Available Scripts
