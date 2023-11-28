@@ -2,19 +2,12 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 
+const config = require("./dbconfig");
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createPool({
-
-   connectionLimit: 10,
-   host: "db4free.net", 
-   user: "", 
-   password: "", 
-   database: "minutesdb", 
-
-})
+const db = mysql.createPool(config.dbconfig);
 
 db.getConnection( (err, connection)=> {
 
