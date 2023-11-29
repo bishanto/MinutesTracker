@@ -16,31 +16,66 @@ db.getConnection( (err, connection)=> {
 
 })
 
+checkIDPromise = () =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select max(ID) As ID From Adult`,
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
+checkLoginPromise = (email) =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select login From Adult where login = ?`,[email],
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
 const port = 8081
 app.listen(port, 
 ()=> console.log(`Server Started on port ${port}...`))
 
-app.post('/createaccount',(req,res)=> {
+app.post('/createaccount',async(req,res)=> {
 
-   var fname = req.body.fname;
-   var lname = req.body.lname;
-   var email = req.body.email;
-   var password = req.body.password;
+   	var fname = req.body.fname;
+   	var lname = req.body.lname;
+   	var email = req.body.email;
+   	var password = req.body.password;
+	const checkLoginExist = await checkLoginPromise(email);
+	const checkIDinBase = await checkIDPromise();
+	if(checkLoginExist[0] === undefined){
+		db.query(`INSERT INTO Adult (ID, fname, lname, parent_role, admin_role, login, password) 
+	   		VALUES (?, ?, ?, ?, ?, ?, ?)`,[(checkIDinBase[0].ID + 1),fname,lname,1,0,email,password],
+            		function(err,data){
 
-   var sql = `INSERT INTO usertable (fname, lname, email, password) VALUES (?, ?, ?, ?)`;
-
-   db.query(sql,[fname,lname,email,password],function(err,data){
-
-      if(err) {
-
-         console.log("Unsuccessfull");
-
-      }
-
-      return res.json(data);
-
-   })
-
+      			if(err) { 
+				console.log("Unsuccessfull!Error:");
+				console.log(err);
+			}	
+        		else	{ 
+				console.log("Insert sucessful");
+				return res.json(data);
+			}	
+		});
+	}
+	else{
+		if(checkLoginExist[0].login === email[0]){
+			console.log('This email already have an account!');
+		}
+		else
+		{		
+   			console.log('An error occurs!');
+		}
+	}
 })
 
 app.post('/login',(req,res)=> {
