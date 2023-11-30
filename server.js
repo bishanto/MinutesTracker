@@ -58,8 +58,8 @@ app.listen(port,
 
 app.post('/createaccount',async(req,res)=> {
 
-   	var fname = req.body.fname;
-   	var lname = req.body.lname;
+   	var fname = req.body.firstname;
+   	var lname = req.body.lastname;
    	var email = req.body.email;
    	var password = req.body.password;
 	const checkLoginExist = await checkLoginPromise(email);
@@ -105,7 +105,10 @@ app.post('/login',async(req,res)=> {
 		console.log("password is wrong");
 		return res.json("Incorrrect password");
 	}
-      	else {return res.json("Success");}
+      	else {
+		console.log("login successful!");
+		return res.json("Success");
+	}
 
 })
 
