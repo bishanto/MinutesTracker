@@ -40,6 +40,18 @@ checkLoginPromise = (email) =>{
     });
 };
 
+checkPasswordPromise = (email,password) =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select login,password From Adult where login = ? And password = ?`,[email, password],
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
 const port = 8081
 app.listen(port, 
 ()=> console.log(`Server Started on port ${port}...`))
@@ -78,33 +90,22 @@ app.post('/createaccount',async(req,res)=> {
 	}
 })
 
-app.post('/login',(req,res)=> {
+app.post('/login',async(req,res)=> {
 
-   var email = req.body.email;
-   var password = req.body.password;
+   	var email = req.body.email;
+   	var password = req.body.password;
+	const checkLogin = await checkLoginPromise(email);
+	const checkPassword = await checkPasswordPromise(email, password);
 
-   var sql = `SELECT * FROM usertable WHERE email = ? AND password = ?`;
-
-   db.query(sql,[email,password],function(err,data){
-
-      if(err) {
-
-         console.log("Error");
-
-      }
-
-      if(data.length > 0) {
-
-         return res.json("Success");
-
-      }
-
-      else {
-
-         return res.json("Incorrrect Login");
-
-      }
-
-   })
+	if(checkLogin[0] === undefined) {
+		console.log("Email is not in the database.");
+		return res.json("Incorrrect Login");
+	}
+	else if(checkPassword[0] === undefined) {
+		console.log("password is wrong");
+		return res.json("Incorrrect password");
+	}
+      	else {return res.json("Success");}
 
 })
+
