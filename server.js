@@ -16,60 +16,99 @@ db.getConnection( (err, connection)=> {
 
 })
 
+checkIDPromise = () =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select max(ID) As ID From Adult`,
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
+checkLoginPromise = (email) =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select login From Adult where login = ?`,[email],
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
+checkPasswordPromise = (email,password) =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select login,password From Adult where login = ? And password = ?`,[email, password],
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
 const port = 8081
 app.listen(port, 
 ()=> console.log(`Server Started on port ${port}...`))
 
-app.post('/createaccount',(req,res)=> {
+app.post('/createaccount',async(req,res)=> {
 
-   var fname = req.body.fname;
-   var lname = req.body.lname;
-   var email = req.body.email;
-   var password = req.body.password;
+   	var fname = req.body.firstname;
+   	var lname = req.body.lastname;
+   	var email = req.body.email;
+   	var password = req.body.password;
+	const checkLoginExist = await checkLoginPromise(email);
+	const checkIDinBase = await checkIDPromise();
+	if(checkLoginExist[0] === undefined){
+		db.query(`INSERT INTO Adult (ID, fname, lname, parent_role, admin_role, login, password) 
+	   		VALUES (?, ?, ?, ?, ?, ?, ?)`,[(checkIDinBase[0].ID + 1),fname,lname,1,0,email,password],
+            		function(err,data){
 
-   var sql = `INSERT INTO usertable (fname, lname, email, password) VALUES (?, ?, ?, ?)`;
+      			if(err) { 
+				console.log("Unsuccessfull!Error:");
+				console.log(err);
+			}	
+        		else	{ 
+				console.log("Insert sucessful");
+				return res.json(data);
+			}	
+		});
+	}
+	else{
+		if(checkLoginExist[0].login === email[0]){
+			console.log('This email already have an account!');
+		}
+		else
+		{		
+   			console.log('An error occurs!');
+		}
+	}
+})
 
-   db.query(sql,[fname,lname,email,password],function(err,data){
+app.post('/login',async(req,res)=> {
 
-      if(err) {
+   	var email = req.body.email;
+   	var password = req.body.password;
+	const checkLogin = await checkLoginPromise(email);
+	const checkPassword = await checkPasswordPromise(email, password);
 
-         console.log("Unsuccessfull");
-
-      }
-
-      return res.json(data);
-
-   })
+	if(checkLogin[0] === undefined) {
+		console.log("Email is not in the database.");
+		return res.json("Incorrrect Login");
+	}
+	else if(checkPassword[0] === undefined) {
+		console.log("password is wrong");
+		return res.json("Incorrrect password");
+	}
+      	else {
+		console.log("login successful!");
+		return res.json("Success");
+	}
 
 })
 
-app.post('/login',(req,res)=> {
-
-   var email = req.body.email;
-   var password = req.body.password;
-
-   var sql = `SELECT * FROM usertable WHERE email = ? AND password = ?`;
-
-   db.query(sql,[email,password],function(err,data){
-
-      if(err) {
-
-         console.log("Error");
-
-      }
-
-      if(data.length > 0) {
-
-         return res.json("Success");
-
-      }
-
-      else {
-
-         return res.json("Incorrrect Login");
-
-      }
-
-   })
-
-})
