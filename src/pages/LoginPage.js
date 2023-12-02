@@ -27,14 +27,20 @@ export const LoginPage = () => {
 
             if(res.data === "Success") {
 
-                navigate('/');
+                navigate('/welcome');
                 alert("Login Successful!");
 
             }
 
-            else {
+            else if(res.data === "Incorrect Login") {
 
-                alert("Incorrect Login");
+                alert("There is no created account with that email");
+
+            }
+			
+	    else if(res.data === "Incorrect Password") {
+
+                alert("Incorrect Password");
 
             }
 
