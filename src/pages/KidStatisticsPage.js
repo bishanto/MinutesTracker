@@ -1,6 +1,6 @@
 import './styleSheet.css';
 import Chart from 'chart.js';
-
+import axios from 'axios';
 
 // Sample data for kid's progress
 const weeklyData = [10, 20, 15, 25, 30];
@@ -22,20 +22,13 @@ const bookList = document.getElementById("bookTitles");
 updateGraph('week');
 
 function updateGraph(period) {
-    let data;
-    switch (period) {
-        case 'week':
-            data = weeklyData;
-            break;
-        case 'month':
-            data = monthlyData;
-            break;
-        case 'trimester':
-            data = trimesterData;
-            break;
-        default:
-            data = [];
-    }
+    let data = [];
+
+    // pull data from DB
+    axios.get('http://localhost/statistics/' + period)
+    .then(res => {
+        data = res.data["total"];
+    }).catch(err => console.log(err));
 
     // Update the graph using Chart.js
     updateChart(data);
