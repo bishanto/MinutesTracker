@@ -44,6 +44,10 @@ npm install axios --save
 
 npm install express --save
 
+npm install google --save
+
+npm install bcrypt --save
+
 ## Available Scripts
 
 In the project directory, you can run:
