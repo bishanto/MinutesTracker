@@ -1,3 +1,31 @@
+![Read 1](Read%201.png)
+
+The OC Elementary School must efficiently track students' homework activities, such as reading and mathematics exercise time. Parents still use paper forms for monitoring times, and PTO (Parent Teacher Organization) members then have to process all those forms manually to provide statistics to the school staff. Our team is developing an efficient and straightforward tool to track children's activities to reach educational goals, stimulate students' progress, and participate in school competitions in reading and math. Web service "Minutes Tracker" provides a convenient way to track times, get statistics, and set specific time goals. Parents will use a link from a PTO website to our web service, and, with their local login credentials or Google Single sign-on, they will put in the number of minutes of reading/math and the name of the book their children read in the appropriate day fields. School staff and designated PTO members will have more comprehensive access to all data to gather educational statistics and reveal the winners in the school competitions.
+
+#Deployment:
+
+Web service can be deployed on the client’s server or into the cloud. For development purposes we use Google Cloud Platform
+
+#Developer instructions:
+
+In progress, to be updated.
+
+#Testing:
+
+Service needs access to GCP MySQL to run. Per security reasons, please add your personal login/password in dbconfig.js file before running.
+
+#ERD
+![Read 1](Read%202.png)
+
+
+![Read 1](Read%203.png)
+![Read 1](Read%204.png)
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
