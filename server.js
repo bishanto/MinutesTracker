@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const config = require("./dbconfig");
 const app = express();
@@ -40,18 +41,6 @@ checkLoginPromise = (email) =>{
     });
 };
 
-checkPasswordPromise = (email,password) =>{
-	return new Promise((resolve, reject)=>{
-        db.query(`Select login,password From Adult where login = ? And password = ?`,[email, password],
-            	function(err,data){
-            if(err){
-                return reject(err);
-            }
-            return resolve(data);
-        });
-    });
-};
-
 const port = 8081
 app.listen(port,
 ()=> console.log(`Server Started on port ${port}...`))
@@ -61,16 +50,18 @@ app.post('/createaccount',async(req,res)=> {
    	var fname = req.body.firstname;
    	var lname = req.body.lastname;
    	var email = req.body.email;
-   	var password = req.body.password;
+   	var password = req.body.password.toString();
+	const hash = await bcrypt.hash(password, 13);
 	const checkLoginExist = await checkLoginPromise(email);
 	const checkIDinBase = await checkIDPromise();
+	
 	if(checkLoginExist[0] === undefined){
 		db.query(`INSERT INTO Adult (ID, fname, lname, parent_role, admin_role, login, password) 
-	   		VALUES (?, ?, ?, ?, ?, ?, ?)`,[(checkIDinBase[0].ID + 1),fname,lname,1,0,email,password],
+	   		VALUES (?, ?, ?, ?, ?, ?, ?)`,[(checkIDinBase[0].ID + 1),fname,lname,1,0,email,hash],
             		function(err,data){
 
       			if(err) { 
-				console.log("Unsuccessfull!Error:");
+				console.log("Unsuccessfull! Error:");
 				console.log(err);
 			}	
         		else	{ 
@@ -81,11 +72,11 @@ app.post('/createaccount',async(req,res)=> {
 	}
 	else{
 		if(checkLoginExist[0].login === email[0]){
-			console.log('This email already have an account!');
+			console.log('There is already an account associated with this email');
 		}
 		else
 		{		
-   			console.log('An error occurs!');
+   			console.log('An error occurs');
 		}
 	}
 })
@@ -93,22 +84,34 @@ app.post('/createaccount',async(req,res)=> {
 app.post('/login',async(req,res)=> {
 
    	var email = req.body.email;
-   	var password = req.body.password;
+   	var password = req.body.password.toString();
 	const checkLogin = await checkLoginPromise(email);
-	const checkPassword = await checkPasswordPromise(email, password);
-
+	
 	if(checkLogin[0] === undefined) {
 		console.log("Email is not in the database.");
 		return res.json("Incorrrect Login");
 	}
-	else if(checkPassword[0] === undefined) {
-		console.log("password is wrong");
-		return res.json("Incorrrect password");
-	}
-      	else {
-		console.log("login successful!");
-		return res.json("Success");
-	}
+
+	db.query(`Select password From Adult where login = ?`,[email],
+            	function(err,data){
+        if(err) throw err;
+			
+		const hashedPass = data[0]["password"];
+
+		bcrypt.compare(password, hashedPass, (err, data) => {
+			if (err) throw err;
+			
+			if (data) {
+				console.log("Successful login");
+				return res.json("Success");
+			}
+			else {
+				console.log("Incorrect Password");
+				return res.json("Incorrect Password");
+			}
+		});
+		
+    });
 
 })
 
