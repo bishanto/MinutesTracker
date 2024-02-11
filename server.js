@@ -41,9 +41,23 @@ checkLoginPromise = (email) =>{
     });
 };
 
+checkPasswordPromise = (ID) =>{
+	return new Promise((resolve, reject)=>{
+        db.query(`Select password From Adult where ID = ?`,[ID],
+            	function(err,data){
+            if(err){
+                return reject(err);
+            }
+            return resolve(data);
+        });
+    });
+};
+
 const port = 8081
 app.listen(port,
 ()=> console.log(`Server Started on port ${port}...`))
+
+var clientID = ""; //for the session that when the client is still connecting after login
 
 app.post('/createaccount',async(req,res)=> {
 
@@ -92,10 +106,10 @@ app.post('/login',async(req,res)=> {
 		return res.json("Incorrrect Login");
 	}
 
-	db.query(`Select password From Adult where login = ?`,[email],
+	db.query(`Select password,ID From Adult where login = ?`,[email],
             	function(err,data){
-        if(err) throw err;
-			
+        	if(err) throw err;
+		clientID = data[0]["ID"];			
 		const hashedPass = data[0]["password"];
 
 		bcrypt.compare(password, hashedPass, (err, data) => {
@@ -113,6 +127,39 @@ app.post('/login',async(req,res)=> {
 		
     });
 
+})
+
+app.post('/ChangePassword',async(req,res)=> {
+
+   	var current = req.body.current_password.toString();
+   	var password = req.body.password.toString();
+        const hash = await bcrypt.hash(password, 13);
+	const checkpassword = await checkPasswordPromise(clientID);
+
+	console.log(clientID);
+	console.log(checkpassword[0]["password"]);
+
+	bcrypt.compare(current, checkpassword[0]["password"], (err, data) => {
+			if (err) throw err;
+			
+			if (data) {
+				db.query(`Update Adult set password = ? where ID = ?`,[hash, clientID],
+        			function(err,result){
+        				if(err) { 
+						console.log("Unsuccessfull! Error:");
+						console.log(err);
+					}	
+        				else	{ 
+						console.log("change password sucessful");
+						return res.json("Success");
+					}
+				});
+			}
+			else {
+				console.log("Incorrect Password!");
+				return res.json("Incorrect Password");
+			}	
+    	});
 })
 
 // route for aggregating reading/math statistics
