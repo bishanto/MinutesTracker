@@ -1,6 +1,6 @@
 import './styleSheet.css';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -19,16 +19,32 @@ export const LoginPage = () => {
 
 	}
 
+	// Check if user has logged in (user JSON object exists in localstorage) and send them to welcome account page instead of needing to login again
+	useEffect(() => {
+		
+		let lsJSON = localStorage.getItem("userJSON");
+		
+		if (lsJSON) {
+			
+			navigate('/welcome');
+		
+		}
+		
+	}, []);
+
 	const handleSubmit = (event) => {
 
 		event.preventDefault();
 		axios.post('/login', values)
 		.then(res => {
 
-            if(res.data === "Success") {
+	    // If login is successful, store user id, first name, and last name in localstorage
+            if(JSON.stringify(res.data.success) === '["yes"]') {
 
+                const objJSON = JSON.stringify(res.data);
+		localStorage.setItem("userJSON", objJSON);
+		alert("Login Successful!");
                 navigate('/welcome');
-                alert("Login Successful!");
 
             }
 
