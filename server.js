@@ -67,6 +67,10 @@ const port = 8081
 app.listen(port,
 ()=> console.log(`Server Started on port ${port}...`))
 
+var clientID = ""; //for the session that when the client is still connecting after login
+var userFName = "";
+var userLName = "";
+
 app.get('/', function (req,res) {
 	res.sendFile(path + "index.html");
 });
@@ -99,6 +103,7 @@ app.post('/createaccount',async(req,res)=> {
 	else{
 		if(checkLoginExist[0].login === email[0]){
 			console.log('There is already an account associated with this email');
+			return res.json("createSuccess");
 		}
 		else
 		{		
@@ -118,9 +123,13 @@ app.post('/login',async(req,res)=> {
 		return res.json("Incorrect Login");
 	}
 
-	db.query(`Select password,ID From Adult where login = ?`,[email],
+	db.query(`Select password,ID,fname,lname From Adult where login = ?`,[email],
             	function(err,data){
         if(err) throw err;
+
+		clientID = data[0]["ID"];
+		userFName = data[0]["fname"];
+		userLName = data[0]["lname"];
 			
 		const hashedPass = data[0]["password"];
 		req.session.adultId = data[0]["ID"];
@@ -130,7 +139,7 @@ app.post('/login',async(req,res)=> {
 			
 			if (data) {
 				console.log("Successful login");
-				return res.json("Success");
+				return res.json({success: ["yes"], userID: [clientID], fname: [userFName], lname: [userLName]});
 			}
 			else {
 				console.log("Incorrect Password");
