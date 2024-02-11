@@ -36,8 +36,13 @@ export const CreateAccountPage = () => {
 		if(String(values.password) === String(values.password_confirm)) {
 			axios.post('/createaccount', values)
 			.then(res => {
-				alert("Account Created");
-				navigate('/login');
+				if (res.data === "createSuccess") {
+					alert("Account Created");
+					navigate('/login');
+				}
+				else if (res.data === "emailError") {
+					alert("Error: An account with this email address has already been created");
+				}
 			}).catch(err => console.log(err));
 		} else {
 			document.getElementsByName("password_confirm").forEach((value) => {
