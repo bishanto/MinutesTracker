@@ -1,8 +1,8 @@
 import Navbar from "../components/Navbar/Navbar";
-mport './styleSheet.css';
+import './styleSheet.css';
 import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
-import axios from 'axios';
+
 
 // Sample data for kid's progress
 const weeklyData = [10, 20, 15, 25, 30];
@@ -70,6 +70,22 @@ export const DragonStatisticsPage = () => {
       }
   };
 
+  function updateGraph(period) {
+    let data = [];
+
+    // pull data from DB
+    axios.get('http://localhost/statistics/' + period)
+    .then(res => {
+        data = res.data["total"];
+    }).catch(err => console.log(err));
+
+    // Update the graph using Chart.js
+    updateChart(data);
+
+    // Update the book titles
+    updateBookList(bookTitles);
+  }
+
   useEffect(() => {
     // This effect runs after the initial render and when bookTitles changes
     updateBookList(bookTitles);
@@ -79,8 +95,8 @@ export const DragonStatisticsPage = () => {
     <form>
       <Navbar />
       <h1>Dragon Statistics</h1>
-    </form>
-         <div className="Dragon Statistics Page">
+      
+      <div className="Dragon Statistics Page">
          <div className="header">
              <button onClick={() => setSelectedPeriod('week')}>Week</button>
              <button onClick={() => setSelectedPeriod('month')}>Month</button>
@@ -95,6 +111,8 @@ export const DragonStatisticsPage = () => {
              </ul>
          </div>
      </div>
+    </form>
+         
     
   );
 };
