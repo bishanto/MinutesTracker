@@ -48,14 +48,20 @@ npm install google --save
 
 npm install bcrypt --save
 
+npm build 
+
+set SESSION_SECRET=YourWordHere
+
+npm run startserver 
+
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run startserver`
 
 Runs the app in the development mode.\
-Open [http://127.0.0.1:3000](http://127.0.0.1:3000) to view it in your browser.
+Open [http://127.0.0.1:8081](http://127.0.0.1:8081) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
