@@ -1,4 +1,6 @@
 import "./WelcomeAccountPageStyle.css";
+import axios from 'axios';
+import React, {useState} from 'react';
 import Navbar from "../components/Navbar/Navbar";
 import { KidProfileButton } from "../components/KidProfileButton/KidProfileButton";
 import { MathMinutesComponent } from "../components/MathMinutesComponent/MathMinutesComponent";
@@ -6,21 +8,43 @@ import { ReadingMinutesComponent } from "../components/ReadingMinutesComponent/R
 
 export const WelcomeAccountPage = () => {
   // Variables to test component loops
-  const accountFirstName = "FirstName";
-  const accountLastName = "LastName";
-  const tableData = [
-    { firstNames: "Katrina", lastNames: "Woods", readMinutes: 25, mathMinutes: 120 },
-    { firstNames: "Khalid", lastNames: "Mcclure", readMinutes: 130, mathMinutes: 20 },
-    { firstNames: "Dora", lastNames: "Fitzgerald", readMinutes: 28, mathMinutes: 5 },
-    { firstNames: "Hollie", lastNames: "Kent", readMinutes: 213, mathMinutes: 42 },
-    { firstNames: "Jordan", lastNames: "Soloman", readMinutes: 65, mathMinutes: 125 }
-  ];
+  const accountID = 4; // hardcoded for testing purposes
+  var accountFirstName = "FirstName";
+  var accountLastName = "LastName";
+  const [tableData, setTableData] = useState([]);
+
+  // Variables to access user data in localstorage
+  let lsJSON = localStorage.getItem("userJSON");
+
+  if (JSON.parse(lsJSON)) {
+    var userObj = JSON.parse(lsJSON);
+  } else if (localStorage.getItem("user")){
+    var userObj = localStorage.getItem("user")
+  }
+
+let user = localStorage.getItem("user");
+
+  if(user !== null){
+    try{
+
+    // Parse the string representation back into a JavaScript object
+    user = JSON.parse(user);
+    
+      accountFirstName = user.given_name;
+      accountLastName = user.family_name;
+    } catch (error) {
+    // Handle the error if parsing fails
+    console.error("Error parsing JSON:", error);
+  }
+  }
+
+  axios.get(`http://localhost:8081/statistics/adult/${accountID}`).then(res => setTableData(res.data));
 
   return (
     <form>
       <Navbar />
-      <h1>
-        Welcome {accountFirstName} {accountLastName}!
+      <h1> 
+        Welcome {accountFirstName} {accountLastName} {userObj.fname} {userObj.lname}!
       </h1>
       <div className="container-row">
         {/* Render button for every name in list*/}
@@ -29,8 +53,8 @@ export const WelcomeAccountPage = () => {
           {tableData.map((data, index) => (
             <KidProfileButton
               key={index}
-              firstName={data.firstNames}
-              lastName={data.lastNames}
+              firstName={data.firstName}
+              lastName={data.lastName}
             />
           ))}
         </div>
