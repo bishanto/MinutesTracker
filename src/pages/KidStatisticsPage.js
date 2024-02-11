@@ -25,7 +25,7 @@ function updateGraph(period) {
     let data = [];
 
     // pull data from DB
-    axios.get('http://localhost/statistics/' + period)
+    axios.get('/statistics/' + period)
     .then(res => {
         data = res.data["total"];
     }).catch(err => console.log(err));

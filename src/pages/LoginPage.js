@@ -22,7 +22,7 @@ export const LoginPage = () => {
 	const handleSubmit = (event) => {
 
 		event.preventDefault();
-		axios.post('http://localhost:8081/login', values)
+		axios.post('/login', values)
 		.then(res => {
 
             if(res.data === "Success") {
