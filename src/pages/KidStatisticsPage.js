@@ -85,30 +85,6 @@ export const KidStatisticsPage = () => {
         updateBookList(bookTitles);
     }
 
-    // Initialize the graph with weekly data
-    //useEffect(() => {
-    //  const updateGraph = (period) => {
-    //      let data;
-    //      switch (period) {
-    //          case 'week':
-    //              data = weeklyData;
-    //              break;
-    //          case 'month':
-    //              data = monthlyData;
-    //              break;
-    //          case 'trimester':
-    //              data = trimesterData;
-    //              break;
-    //          default:
-    //              data = [];
-    //      }
-
-    //      updateChart(data);
-    //  };
-
-    //  updateGraph(selectedPeriod);
-    //}, [selectedPeriod]);
-
     useEffect(() => {
         // This effect runs after the initial render and when bookTitles changes
         updateBookList(bookTitles);
