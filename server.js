@@ -115,6 +115,20 @@ app.post('/login',async(req,res)=> {
 
 })
 
+// gets reading & math statistics of students by adult
+app.get('/statistics/adult/:adultid', (req, res) => {
+	db.query("select fname as firstName, lname as lastName, sum(reading_minutes) as readMinutes, sum(math_minutes) as mathMinutes from HAS \
+			left join Student on Student.ID = HAS.Student_Id \
+			left join Minutes on Minutes.Student_Id = Student.ID \
+			where HAS.Adult_Id = ? \
+			group by Student.ID",
+		[req.params.adultid], (err, data) => {
+			if(err) console.log(err);
+			else res.send(data);
+		}
+	);
+});
+
 // route for aggregating reading/math statistics
 app.get('/statistics/:period', (req, res) => {
 	const queries = {
