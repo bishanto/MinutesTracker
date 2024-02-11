@@ -13,13 +13,17 @@ export const WelcomeAccountPage = () => {
   const accountLastName = "LastName";
   const [tableData, setTableData] = useState([]);
 
+  // Variables to access user data in localstorage
+  let lsJSON = localStorage.getItem("userJSON");
+  let userObj = JSON.parse(lsJSON);
+
   axios.get(`http://localhost:8081/statistics/adult/${accountID}`).then(res => setTableData(res.data));
 
   return (
     <form>
       <Navbar />
       <h1>
-        Welcome {accountFirstName} {accountLastName}!
+        Welcome {userObj.fname} {userObj.lname}!
       </h1>
       <div className="container-row">
         {/* Render button for every name in list*/}
