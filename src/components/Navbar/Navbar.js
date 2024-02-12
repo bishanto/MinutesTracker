@@ -1,12 +1,24 @@
 import "./NavbarStyle.css";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+
+  const navigate = useNavigate();
+  
+	const handleLogout = () => {
+		
+		if (window.confirm("Are you sure you want to Log Out?")) {
+			localStorage.removeItem('userJSON');
+			navigate('/');
+		}
+	};
+  
   return (
     <nav className="navbar">
       <div className="nav-title">
-        <a href="/welcome" className="title">
+        <a href="#/welcome" className="title">
           Minutes Tracker
         </a>
       </div>
@@ -20,6 +32,7 @@ const Navbar = () => {
         <Link to="/settings">
           <button className="btn">Settings</button>
         </Link>
+        <button className = "logoutbtn" onClick={handleLogout}>Log Out</button>
       </div>
     </nav>
   );

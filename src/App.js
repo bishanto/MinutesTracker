@@ -76,7 +76,6 @@ function App() {
           <Route path='/changepasswordlogin' element={<ChangePasswordLogin/>} />
           <Route path='/changepassword' element={<ChangePassword /> } />
           <Route path='/createaccount' element={<CreateAccountPage />} />
-          <Route path='/login' element={<LoginPage />} />
           <Route path='/signin' element={<LoginPage />} />
           <Route path='/settings' element={<SettingsPage />} />
           <Route path='/dragonstatistics' element={<DragonStatisticsPage />} />

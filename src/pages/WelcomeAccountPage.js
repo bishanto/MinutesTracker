@@ -1,4 +1,6 @@
 import "./WelcomeAccountPageStyle.css";
+import axios from 'axios';
+import React, {useState} from 'react';
 import Navbar from "../components/Navbar/Navbar";
 import { KidProfileButton } from "../components/KidProfileButton/KidProfileButton";
 import { MathMinutesComponent } from "../components/MathMinutesComponent/MathMinutesComponent";
@@ -6,21 +8,19 @@ import { ReadingMinutesComponent } from "../components/ReadingMinutesComponent/R
 
 export const WelcomeAccountPage = () => {
   // Variables to test component loops
-  const accountFirstName = "FirstName";
-  const accountLastName = "LastName";
-  const tableData = [
-    { firstNames: "Katrina", lastNames: "Woods", readMinutes: 25, mathMinutes: 120 },
-    { firstNames: "Khalid", lastNames: "Mcclure", readMinutes: 130, mathMinutes: 20 },
-    { firstNames: "Dora", lastNames: "Fitzgerald", readMinutes: 28, mathMinutes: 5 },
-    { firstNames: "Hollie", lastNames: "Kent", readMinutes: 213, mathMinutes: 42 },
-    { firstNames: "Jordan", lastNames: "Soloman", readMinutes: 65, mathMinutes: 125 }
-  ];
+  const [tableData, setTableData] = useState([]);
+
+  // Variables to access user data in localstorage
+  let lsJSON = localStorage.getItem("userJSON");
+  let userObj = JSON.parse(lsJSON);
+
+  axios.get(`http://localhost:8081/statistics/adult/${userObj.userID}`).then(res => setTableData(res.data));
 
   return (
     <form>
       <Navbar />
       <h1>
-        Welcome {accountFirstName} {accountLastName}!
+        Welcome {userObj.fname} {userObj.lname}!
       </h1>
       <div className="container-row">
         {/* Render button for every name in list*/}
@@ -29,8 +29,8 @@ export const WelcomeAccountPage = () => {
           {tableData.map((data, index) => (
             <KidProfileButton
               key={index}
-              firstName={data.firstNames}
-              lastName={data.lastNames}
+              firstName={data.firstName}
+              lastName={data.lastName}
             />
           ))}
         </div>
