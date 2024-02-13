@@ -34,7 +34,7 @@ export const CreateAccountPage = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if(String(values.password) === String(values.password_confirm)) {
-			axios.post('/createaccount', values)
+			axios.post('http://localhost:8081/createaccount', values)
 			.then(res => {
 				if (res.data === "createSuccess") {
 					alert("Account Created");

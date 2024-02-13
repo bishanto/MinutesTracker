@@ -8,16 +8,13 @@ import { ReadingMinutesComponent } from "../components/ReadingMinutesComponent/R
 
 export const WelcomeAccountPage = () => {
   // Variables to test component loops
-  const accountID = 4; // hardcoded for testing purposes
-  const accountFirstName = "FirstName";
-  const accountLastName = "LastName";
   const [tableData, setTableData] = useState([]);
 
   // Variables to access user data in localstorage
   let lsJSON = localStorage.getItem("userJSON");
   let userObj = JSON.parse(lsJSON);
 
-  axios.get(`http://localhost:8081/statistics/adult/${accountID}`).then(res => setTableData(res.data));
+  axios.get(`http://localhost:8081/statistics/adult/${userObj.userID}`).then(res => setTableData(res.data));
 
   return (
     <form>

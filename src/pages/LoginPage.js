@@ -35,7 +35,7 @@ export const LoginPage = () => {
 	const handleSubmit = (event) => {
 
 		event.preventDefault();
-		axios.post('/login', values)
+		axios.post('http://localhost:8081/login', values)
 		.then(res => {
 
 	    // If login is successful, store user id, first name, and last name in localstorage
