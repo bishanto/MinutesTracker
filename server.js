@@ -71,8 +71,14 @@ var clientID = ""; //for the session that when the client is still connecting af
 var userFName = "";
 var userLName = "";
 
-app.get('/', function (req,res) {
-	res.sendFile(path + "index.html");
+app.get('/', (req,res)=> {
+	if(req.session.adultId){
+		res.redirect('/welcome');
+	}
+	else{
+		console.log("what?");
+		res.sendFile(path + "index.html");
+	}
 });
 
 app.post('/createaccount',async(req,res)=> {
@@ -133,7 +139,6 @@ app.post('/login',async(req,res)=> {
 			
 		const hashedPass = data[0]["password"];
 		req.session.adultId = data[0]["ID"];
-
 		bcrypt.compare(password, hashedPass, (err, data) => {
 			if (err) throw err;
 			
@@ -208,15 +213,12 @@ app.post('/createprofile',async(req,res)=> {
 });
 
 app.post('/ChangePassword',async(req,res)=> {
-
+	
    	var current = req.body.current_password.toString();
    	var password = req.body.password.toString();
 	const hash = await bcrypt.hash(password, 13);
 	const clientID = req.session.adultId;
 	const checkpassword = await checkPasswordPromise(clientID);
-
-	console.log(clientID);
-	console.log(checkpassword[0]["password"]);
 
 	bcrypt.compare(current, checkpassword[0]["password"], (err, data) => {
 			if (err) throw err;
@@ -239,6 +241,16 @@ app.post('/ChangePassword',async(req,res)=> {
 				return res.json("Incorrect Password");
 			}
     	});
+})
+
+app.post('/Logout',async(req,res)=> {
+	req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log("session clear!");
+        }
+    });
 })
 
 // gets reading & math statistics of students by adult

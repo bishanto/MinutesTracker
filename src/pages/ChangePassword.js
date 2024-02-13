@@ -24,7 +24,7 @@ export const ChangePassword = () => {
     const handleSubmit = (event) => {
 	event.preventDefault();
 	if(String(values.password) === String(values.password_confirm)) {
-		axios.post('http://localhost:8081/ChangePassword', values)
+		axios.post('/ChangePassword', values)
 		.then(res => {
 			if(res.data === "Success") {
 				alert("password changes!");

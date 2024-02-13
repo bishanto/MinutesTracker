@@ -2,15 +2,17 @@ import "./NavbarStyle.css";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Navbar = () => {
 
   const navigate = useNavigate();
   
-	const handleLogout = () => {
-		
+	const handleLogout = (event) => {
+		event.preventDefault();
 		if (window.confirm("Are you sure you want to Log Out?")) {
 			localStorage.removeItem('userJSON');
+			axios.post('/Logout')
 			navigate('/');
 		}
 	};
