@@ -4,7 +4,6 @@ const session = require('express-session');
 const mysql = require("mysql");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
-
 const config = require("./dbconfig");
 const app = express();
 const path = __dirname + '/build/';
@@ -255,7 +254,7 @@ app.post('/Logout',async(req,res)=> {
 
 // gets reading & math statistics of students by adult
 app.get('/statistics/adult/:adultid', (req, res) => {
-	db.query("select fname as firstName, lname as lastName, sum(reading_minutes) as readMinutes, sum(math_minutes) as mathMinutes from HAS \
+	db.query("select fname as firstName, ID as sid, lname as lastName, sum(reading_minutes) as readMinutes, sum(math_minutes) as mathMinutes from HAS \
 			left join Student on Student.ID = HAS.Student_Id \
 			left join Minutes on Minutes.Student_Id = Student.ID \
 			where HAS.Adult_Id = ? \
@@ -292,3 +291,34 @@ app.get('/statistics/:period', (req, res) => {
 		} else res.send("No statistics are currently available");
 	});
 })
+
+// Add Minutes from kid's profile page
+app.post('/KidProfilePage/:id', async (req, res) => { // Removed the trailing slash
+    try {
+        const studentId = req.body.studentId; // Retrieve studentId from the request body
+        const { activity, minutes } = req.body;
+      
+        let columnName;
+        if (activity === 'Math') {
+          columnName = 'math_minutes';
+        } else if (activity === 'Reading') {
+          columnName = 'reading_minutes';
+        } else {
+          return res.status(400).json({ error: 'Invalid activity' });
+        }
+      
+        const sql = `INSERT INTO Minutes (student_id, ${columnName}) VALUES (?, ?)`; // Include student_id in the query
+      
+        db.query(sql, [studentId, minutes], (err, result) => {
+          if (err) {
+            console.error(`Error inserting ${activity} minutes:`, err);
+            return res.status(500).json({ error: `An error occurred while inserting ${activity} minutes` });
+          }
+          console.log(`${activity} minutes inserted:`, result);
+          res.json({ success: true });
+        });
+    } catch (error) {
+        console.error('Error handling request:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});

@@ -31,6 +31,7 @@ export const WelcomeAccountPage = () => {
               key={index}
               firstName={data.firstName}
               lastName={data.lastName}
+              id={data.sid}
             />
           ))}
         </div>
