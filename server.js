@@ -1,10 +1,18 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const mysql = require("mysql");
-const cors = require("cors");
-const bcrypt = require("bcrypt");
-const config = require("./dbconfig");
+import cookieParser from "cookie-parser";
+import express, {Router} from "express";
+import session from "express-session";
+import mysql from "mysql";
+import cors from "cors";
+import bcrypt from "bcrypt";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import {dbconfig} from "./dbconfig.js";
+import {Database} from "./db/database.repository.js";
+import StudentController from "./controllers/student.controller.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 const path = __dirname + '/build/';
 app.use(express.static(path));
@@ -17,7 +25,7 @@ app.use(session({
 	saveUninitialized: true,
 }));
 
-const db = mysql.createPool(config.dbconfig);
+const db = mysql.createPool(dbconfig);
 
 db.getConnection( (err, connection)=> {
 
@@ -26,7 +34,7 @@ db.getConnection( (err, connection)=> {
 
 })
 
-checkIDPromise = () =>{
+function checkIDPromise() {
 	return new Promise((resolve, reject)=>{
         db.query(`Select max(ID) As ID From Adult`,
             	function(err,data){
@@ -36,9 +44,9 @@ checkIDPromise = () =>{
             return resolve(data);
         });
     });
-};
+}
 
-checkLoginPromise = (email) =>{
+function checkLoginPromise(email) {
 	return new Promise((resolve, reject)=>{
         db.query(`Select login From Adult where login = ?`,[email],
             	function(err,data){
@@ -48,9 +56,9 @@ checkLoginPromise = (email) =>{
             return resolve(data);
         });
     });
-};
+}
 
-checkPasswordPromise = (ID) =>{
+function checkPasswordPromise(ID) {
 	return new Promise((resolve, reject)=>{
         db.query(`Select password From Adult where ID = ?`,[ID],
             	function(err,data){
@@ -60,7 +68,17 @@ checkPasswordPromise = (ID) =>{
             return resolve(data);
         });
     });
-};
+}
+
+function isAuthenticated (req, res, next) {
+	if (req.session.adultId) {
+		next();
+		return;
+	}
+	res.status(401).send({error: "Unauthorized"});
+	next("Unauthorized");
+}
+
 
 const port = 8081
 app.listen(port,
@@ -297,7 +315,7 @@ app.post('/KidProfilePage/:id', async (req, res) => { // Removed the trailing sl
     try {
         const studentId = req.body.studentId; // Retrieve studentId from the request body
         const { activity, minutes } = req.body;
-      
+
         let columnName;
         if (activity === 'Math') {
           columnName = 'math_minutes';
@@ -306,9 +324,9 @@ app.post('/KidProfilePage/:id', async (req, res) => { // Removed the trailing sl
         } else {
           return res.status(400).json({ error: 'Invalid activity' });
         }
-      
+
         const sql = `INSERT INTO Minutes (student_id, ${columnName}) VALUES (?, ?)`; // Include student_id in the query
-      
+
         db.query(sql, [studentId, minutes], (err, result) => {
           if (err) {
             console.error(`Error inserting ${activity} minutes:`, err);
@@ -321,4 +339,9 @@ app.post('/KidProfilePage/:id', async (req, res) => { // Removed the trailing sl
         console.error('Error handling request:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
+});
+
+app.get('/student/:id/books', isAuthenticated, async (req, res) => {
+	let student = new StudentController(new Database(db));
+	await student.getBooks(req, res);
 });
