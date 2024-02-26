@@ -1,16 +1,17 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { LoginPage } from './pages/LoginPage';
-import { CreateAccountPage } from './pages/CreateAccountPage';
-import { WelcomePage } from './pages/WelcomePage';
-import { ChangePassword } from './pages/ChangePassword';
-import { ChangePasswordLogin } from './pages/ChangePasswordLogin';
-import { SettingsPage } from './pages/SettingsPage';
-import { DragonStatisticsPage} from './pages/DragonStatisticsPage';
-import { AddProfilePage } from './pages/AddProfilePage';
-import { WelcomeAccountPage } from './pages/WelcomeAccountPage';
-import { KidProfilePage } from "./pages/KidProfilePage";
+import { LoginPage } from './pages/LoginPage.js';
+import { CreateAccountPage } from './pages/CreateAccountPage.js';
+import { WelcomePage } from './pages/WelcomePage.js';
+import { ChangePassword } from './pages/ChangePassword.js';
+import { ChangePasswordLogin } from './pages/ChangePasswordLogin.js';
+import { SettingsPage } from './pages/SettingsPage.js';
+import { DragonStatisticsPage} from './pages/DragonStatisticsPage.js';
+import { AddProfilePage } from './pages/AddProfilePage.js';
+import { WelcomeAccountPage } from './pages/WelcomeAccountPage.js';
+import { KidProfilePage } from "./pages/KidProfilePage.js";
+import { ForgetPassword } from "./pages/ForgetPassword.js";
 import {jwtDecode} from 'jwt-decode';
 
 function App() {

@@ -48,6 +48,8 @@ npm install google --save
 
 npm install bcrypt --save
 
+npm install nodemailer --save
+
 npm build 
 
 set SESSION_SECRET=YourWordHere
