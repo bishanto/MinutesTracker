@@ -19,7 +19,6 @@ app.use(express.static(path));
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(__dirname+'/public'));
 app.use(session({
 	secret: process.env.SESSION_SECRET,
 	resave: true,
@@ -347,7 +346,7 @@ app.get('/student/:id/books', isAuthenticated, async (req, res) => {
 	await student.getBooks(req, res);
 });
 
-app.post('/ForgetPassword',async(req,res)=> {
+app.post('/forgetpassword',async(req,res)=> {
 
    	var email = req.body.email;
 	const checkLogin = await checkLoginPromise(email);
@@ -364,7 +363,7 @@ app.post('/ForgetPassword',async(req,res)=> {
 		});
 
 		const mailData = {
-			from: 'MinutesTrackerCustomerService@DoNotReply.com',
+			from: '', // your email here
   			to: email,
   			subject: 'Forget Password from MinutesTracker',
   			text: 'You request to change password!',

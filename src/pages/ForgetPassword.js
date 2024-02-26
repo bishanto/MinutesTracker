@@ -11,25 +11,17 @@ export const ForgetPassword = () => {
 
     const handleSubmit = (event) => {
 	event.preventDefault();
-	axios.post('/ForgetPassword', values).then(res => {
+	axios.post('/forgetpassword', values).then(res => {
 		if(res.data === "Success") {
 			alert("Redirecting!");
 			navigate('/ChangePassword');
 		}
 		else if (res.data === "Incorrect Login") {
+				document.getElementsByName("email").forEach(value => {value.style.boxShadow = "0 0 5px 1px red";});
 				alert("please input the email!");
 		}
 	}).catch(err => console.log(err));
-
-	document.getElementsByName("email").forEach(value => {value.style.boxShadow = "0 0 5px 1px red";});
     }
-
-    useEffect(() => {
-			document.getElementsByName("email").forEach(value => {
-				value.style.boxShadow = "0 0 5px 1px red";
-				value.setCustomValidity("No email found");
-			});
-    }, [values.email]);
 
     return (
         <div class="outer-container">
