@@ -50,6 +50,12 @@ npm install bcrypt --save
 
 npm install nodemailer --save
 
+npm install react-calendar --save
+
+npm install bootstrap --save
+
+npm install react-bootstrap --save
+
 npm build 
 
 set SESSION_SECRET=YourWordHere
