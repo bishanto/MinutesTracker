@@ -36,8 +36,13 @@ export const CreateAccountPage = () => {
 		if(String(values.password) === String(values.password_confirm)) {
 			axios.post('http://localhost:8081/createaccount', values)
 			.then(res => {
-				alert("Account Created");
-				navigate('/login');
+				if (res.data === "createSuccess") {
+					alert("Account Created");
+					navigate('/signin');
+				}
+				else if (res.data === "emailError") {
+					alert("Error: An account with this email address has already been created");
+				}
 			}).catch(err => console.log(err));
 		} else {
 			document.getElementsByName("password_confirm").forEach((value) => {
@@ -53,7 +58,7 @@ export const CreateAccountPage = () => {
 			<div class="middle-container">
 				<form onSubmit={handleSubmit}>
 					<div class="inner-container">
-						<h1>Create a Minutes Tracker Account</h1>
+						<h1>Create a Dragon Minutes Account</h1>
 						<div>
 							First Name<br/><input type="text" name="firstname" placeholder="First Name" onChange={handleInput}/><br/>
 							Last Name<br/><input type="text" name="lastname" placeholder="Last Name" onChange={handleInput}/><br/>

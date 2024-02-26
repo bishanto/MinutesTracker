@@ -2,22 +2,32 @@
   "name": "minutes-tracker",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.6.1",
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.3",
     "chart.js": "^4.4.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "google": "^2.1.0",
+    "googleapis": "^133.0.0",
     "jwt-decode": "^4.0.0",
     "mysql": "^2.18.1",
     "nodemon": "^3.0.1",
     "npm-run-all": "^4.1.5",
+    "path": "^0.12.7",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "^5.0.1",
+    "url": "^0.11.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -26,7 +36,8 @@
     "startserver": "nodemon server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "testServer": "node --experimental-vm-modules node_modules/.bin/jest --coverage __tests__/*.spec.js"
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "supertest": "^6.3.4"
   }
 }

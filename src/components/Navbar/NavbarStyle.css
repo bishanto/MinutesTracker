@@ -58,3 +58,12 @@
 .title:hover::before {
   transform: scaleX(1);
 }
+
+.logoutbtn {
+	background-color:#e65c53;
+}
+
+.logoutbtn:hover {
+	background-color:#700000;
+	color:white;
+}

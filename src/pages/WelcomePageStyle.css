@@ -1,0 +1,21 @@
+.dragonimg {
+	max-width: 50%;
+	max-height: 50%
+}
+
+a {
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+	color: #FFCC00;
+}
+
+.div1 {
+	padding:50px;
+}
+
+.div2 {
+	padding-bottom: 50px;
+}
