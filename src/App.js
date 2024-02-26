@@ -82,6 +82,7 @@ function App() {
           <Route path='/dragonstatistics' element={<DragonStatisticsPage />} />
           <Route path='/addprofile' element={<AddProfilePage />} />
           <Route path='/welcome' element={<WelcomeAccountPage />} />
+          <Route path='/ForgetPassword' element={<ForgetPasswordPage />} />
           <Route path='/KidProfilePage/:id' element={<KidProfilePage />} />
       </Routes>
       </main>
