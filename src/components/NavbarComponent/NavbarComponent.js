@@ -6,7 +6,7 @@ import axios from 'axios';
 import Nav from 'react-bootstrap/Nav'; 
 import Navbar from 'react-bootstrap/Navbar';
 
-const Navbar = () => {
+const NavbarComponent = () => {
 
   const navigate = useNavigate();
   
