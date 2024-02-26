@@ -2,6 +2,7 @@ import "./styleSheet.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 
 export const AddProfilePage = () => {
   const [data, setData] = useState([]);
@@ -62,6 +63,7 @@ export const AddProfilePage = () => {
   return (
     <div class="outer-container">
       <div class="middle-container">
+      <NavbarComponent />
         <div class="inner-container">
           <form onSubmit={handleSubmit}>
             <h1>Add A New Kid's Profile</h1>

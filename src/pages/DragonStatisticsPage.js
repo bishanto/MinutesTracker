@@ -1,9 +1,9 @@
-import Navbar from "../components/Navbar/Navbar.js";
+import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 
 export const DragonStatisticsPage = () => {
   return (
     <form>
-      <Navbar />
+      <NavbarComponent />
       <h1>Dragon Statistics</h1>
     </form>
   );

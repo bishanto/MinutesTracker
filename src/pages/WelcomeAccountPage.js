@@ -1,7 +1,7 @@
 import "./WelcomeAccountPageStyle.css";
 import axios from 'axios';
 import React, {useState} from 'react';
-import Navbar from "../components/Navbar/Navbar.js";
+import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 import { KidProfileButton } from "../components/KidProfileButton/KidProfileButton.js";
 import { MathMinutesComponent } from "../components/MathMinutesComponent/MathMinutesComponent.js";
 import { ReadingMinutesComponent } from "../components/ReadingMinutesComponent/ReadingMinutesComponent.js";
@@ -18,7 +18,7 @@ export const WelcomeAccountPage = () => {
 
   return (
     <form>
-      <Navbar />
+      <NavbarComponent />
       <h1>
         Welcome {userObj.fname} {userObj.lname}!
       </h1>

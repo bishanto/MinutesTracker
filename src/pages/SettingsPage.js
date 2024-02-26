@@ -1,5 +1,5 @@
 import "./settingsStyle.css";
-import Navbar from "../components/Navbar/Navbar.js";
+import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -116,7 +116,7 @@ export const SettingsPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavbarComponent />
       <div className="first-button-div">
         <button className="button" onClick={() => setShowPopout(!showPopout)}>Remove a Profile</button>
       </div>

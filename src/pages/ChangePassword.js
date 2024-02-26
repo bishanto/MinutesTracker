@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 
 import './LoginStyle.css';
 
@@ -58,6 +59,7 @@ export const ChangePassword = () => {
     return (
         <div class="outer-container">
             <div class="middle-container">
+            <NavbarComponent />
                 <div class="inner-container">
                     <form onSubmit={handleSubmit}>
                         <h1>Change Password</h1>
