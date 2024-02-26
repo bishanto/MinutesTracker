@@ -1,6 +1,7 @@
 import "./styleSheet.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const AddProfilePage = () => {
   const [data, setData] = useState([]);
@@ -11,10 +12,11 @@ export const AddProfilePage = () => {
     grade: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
 
     setData((prevData) => [...prevData, formData]);
+    axios.post("/createprofile", formData);
     alert("A profile has been added successfully!");
     navigate("/addprofile");
 
