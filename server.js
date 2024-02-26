@@ -12,7 +12,7 @@ import StudentController from "./controllers/student.controller.js";
 import {econfig} from "./econfig.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
+import nodemailer from "nodemailer";
 const app = express();
 const path = __dirname + '/build/';
 app.use(express.static(path));
