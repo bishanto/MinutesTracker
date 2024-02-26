@@ -38,7 +38,7 @@ export const CreateAccountPage = () => {
 			.then(res => {
 				if (res.data === "createSuccess") {
 					alert("Account Created");
-					navigate('/login');
+					navigate('/signin');
 				}
 				else if (res.data === "emailError") {
 					alert("Error: An account with this email address has already been created");

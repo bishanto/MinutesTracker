@@ -1,6 +1,8 @@
 import "./WelcomeAccountPageStyle.css";
 import axios from 'axios';
 import React, {useState} from 'react';
+import axios from 'axios';
+import React, {useState} from 'react';
 import Navbar from "../components/Navbar/Navbar";
 import { KidProfileButton } from "../components/KidProfileButton/KidProfileButton";
 import { MathMinutesComponent } from "../components/MathMinutesComponent/MathMinutesComponent";
@@ -15,11 +17,19 @@ export const WelcomeAccountPage = () => {
   let userObj = JSON.parse(lsJSON);
 
   axios.get(`http://localhost:8081/statistics/adult/${userObj.userID}`).then(res => setTableData(res.data));
+  const [tableData, setTableData] = useState([]);
+
+  // Variables to access user data in localstorage
+  let lsJSON = localStorage.getItem("userJSON");
+  let userObj = JSON.parse(lsJSON);
+
+  axios.get(`http://localhost:8081/statistics/adult/${userObj.userID}`).then(res => setTableData(res.data));
 
   return (
     <form>
       <Navbar />
       <h1>
+        Welcome {userObj.fname} {userObj.lname}!
         Welcome {userObj.fname} {userObj.lname}!
       </h1>
       <div className="container-row">
@@ -31,6 +41,7 @@ export const WelcomeAccountPage = () => {
               key={index}
               firstName={data.firstName}
               lastName={data.lastName}
+              id={data.sid}
             />
           ))}
         </div>
