@@ -11,20 +11,6 @@ import { AddProfilePage } from './pages/AddProfilePage';
 import { WelcomeAccountPage } from './pages/WelcomeAccountPage';
 import { KidProfilePage } from "./pages/KidProfilePage";
 
-
-/*    
-<div id="signInDiv"></div>
-
-    {Object.keys(user).length != 0 && 
-    <button onClick = {(e) => handleSignOut(e)}>Sign Out</button>
-    }
-        {user &&
-    <div>
-      <img src ={user.picture}></img>
-      <h3>{user.name}</h3>
-    </div>
-    }*/
-
 function App() {
 
   return (

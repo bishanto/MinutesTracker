@@ -39,7 +39,6 @@ let user = localStorage.getItem("user");
   }
 
   axios.get(`http://localhost:8081/statistics/adult/${accountID}`).then(res => setTableData(res.data));
-
   return (
     <form>
       <Navbar />
