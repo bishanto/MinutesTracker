@@ -8,6 +8,18 @@ const weeklyData = [10, 20, 15, 25, 30];
 const monthlyData = [30, 45, 40, 50, 60];
 const trimesterData = [80, 100, 90, 120, 130];
 
+const labelsByPeriod = {
+    "week": ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
+    "month": ["Month 1", "Month 2", "Month 3", "Month 4", "Month 5"],
+    "trimester": ["Trimester 1", "Trimester 2", "Trimester 3", "Trimester 4", "Trimester 5"]
+};
+
+const dataByPeriod = {
+    "week": weeklyData,
+    "month": monthlyData,
+    "trimester": trimesterData
+};
+
 const bookTitles = [
     "Book 1",
     "Book 2",
@@ -16,14 +28,20 @@ const bookTitles = [
     "Book 5"
 ];
 
+const periodStrings = { "week": "Week", "month": "Month", "trimester": "Trimester" };
+
+const studentID = 1;
+const firstName = "First";
+const lastName = "Last";
+
 export const KidStatisticsPage = () => {
     const [selectedPeriod, setSelectedPeriod] = useState('week');
 
     // Update the graph using Chart.js
-    const updateChart = (data) => {
+    const updateChart = (labels, data) => {
         const ctx = document.getElementById("kidGraph").getContext("2d");
         const chartData = {
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            labels: labels,
             datasets: [
                 {
                     label: 'Hours completed',
@@ -36,7 +54,7 @@ export const KidStatisticsPage = () => {
         };
         const chartOptions = {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             scales: {
                 y: {
                     beginAtZero: true,
@@ -70,28 +88,36 @@ export const KidStatisticsPage = () => {
     };
 
     function updateGraph(period) {
-        let data = [];
-    
-        // pull data from DB
-        axios.get('http://localhost/statistics/' + period)
+        let labels = labelsByPeriod[period];
+        let data = dataByPeriod[period];
+
+        // pull data from DB (uncomment this part to see sample data instead)
+        axios.get(`http://localhost:8081/statistics/${period}`)
         .then(res => {
-            data = res.data["total"];
+            data = res.data["total"].map(minutes => minutes / 60); // reading + math
+            labels = Array.from(Array(data.length).keys())
+                .map(number => periodStrings[period] + " " + (number + 1));
+
+            updateChart(labels, data);
         }).catch(err => console.log(err));
-    
+
         // Update the graph using Chart.js
-        updateChart(data);
-    
-        // Update the book titles
-        updateBookList(bookTitles);
+        updateChart(labels, data);
     }
+
+    // update graph on initial render and then when the selected period changes
+    useEffect(() => {
+        updateGraph(selectedPeriod);
+    }, [selectedPeriod]);
 
     useEffect(() => {
         // This effect runs after the initial render and when bookTitles changes
         updateBookList(bookTitles);
-    }, []);
+    }, [bookTitles]);
 
     return (
         <div className="KidStatisticsPage">
+            <h1>{firstName} {lastName}'s Progess</h1>
             <div className="header">
                 <button onClick={() => setSelectedPeriod('week')}>Week</button>
                 <button onClick={() => setSelectedPeriod('month')}>Month</button>

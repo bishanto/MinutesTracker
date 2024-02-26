@@ -11,6 +11,7 @@ import { DragonStatisticsPage} from './pages/DragonStatisticsPage';
 import { AddProfilePage } from './pages/AddProfilePage';
 import { WelcomeAccountPage } from './pages/WelcomeAccountPage';
 import { KidProfilePage } from "./pages/KidProfilePage";
+import { KidStatisticsPage } from "./pages/KidStatisticsPage";
 import {jwtDecode} from 'jwt-decode';
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
           <Route path='/addprofile' element={<AddProfilePage />} />
           <Route path='/welcome' element={<WelcomeAccountPage />} />
           <Route path='/KidProfilePage' element={<KidProfilePage />} />
+          <Route path='/kidstatistics' element={<KidStatisticsPage />} />
       </Routes>
       </main>
     </div>
