@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals.js';
 import {BrowserRouter, HashRouter} from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+document.body.style = 'background: #86c750;';
+
 root.render(
   // <React.StrictMode>
     <HashRouter>
