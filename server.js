@@ -270,6 +270,31 @@ app.post('/Logout',async(req,res)=> {
     });
 })
 
+// MySQL groupings for different periods
+const periods = {
+	"week": "WEEK(`Minutes`.`date`)",
+	"month": "MONTH(`Minutes`.`date`)",
+	"trimester": "trimester"
+};
+
+// get reading & math statistics of students by student
+app.get('/statistics/:period/student/:studentid', (req, res) => {
+	if(!(req.params.period in periods)) {
+		res.send("Invalid request");
+		return;
+	}
+
+	const period = periods[req.params.period];
+	db.query(`select ${period} ?, sum(reading_minutes) readMinutes, sum(math_minutes) mathMinutes
+			from Student left join Minutes on Student.ID = Minutes.Student_Id
+			where Student.ID = ? group by ${period}`,
+		[req.params.period, req.params.studentid], (err, data) => {
+			if(err) console.log(err);
+			else res.send(data);
+		}
+	);
+});
+
 // gets reading & math statistics of students by adult
 app.get('/statistics/adult/:adultid', (req, res) => {
 	db.query("select fname as firstName, ID as sid, lname as lastName, sum(reading_minutes) as readMinutes, sum(math_minutes) as mathMinutes from HAS \
