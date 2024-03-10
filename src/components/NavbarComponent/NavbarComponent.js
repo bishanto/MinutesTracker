@@ -3,8 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Nav from 'react-bootstrap/Nav'; 
-import Navbar from 'react-bootstrap/Navbar';
+import { Nav, Navbar } from 'react-bootstrap';
 
 const NavbarComponent = () => {
 

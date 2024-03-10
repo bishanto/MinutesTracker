@@ -297,16 +297,22 @@ app.get('/statistics/:period/student/:studentid', (req, res) => {
 
 // gets reading & math statistics of students by adult
 app.get('/statistics/adult/:adultid', (req, res) => {
-	db.query("select fname as firstName, ID as sid, lname as lastName, sum(reading_minutes) as readMinutes, sum(math_minutes) as mathMinutes from HAS \
-			left join Student on Student.ID = HAS.Student_Id \
-			left join Minutes on Minutes.Student_Id = Student.ID \
-			where HAS.Adult_Id = ? \
-			group by Student.ID",
-		[req.params.adultid], (err, data) => {
-			if(err) console.log(err);
-			else res.send(data);
-		}
-	);
+    db.query(
+        "SELECT fname AS firstName, ID AS sid, lname AS lastName, SUM(reading_minutes) AS readMinutes, \
+        SUM(math_minutes) AS mathMinutes, \
+        SUM(CASE WHEN date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) THEN reading_minutes ELSE 0 END) AS weeklyReadMinutes, \
+        SUM(CASE WHEN date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) THEN math_minutes ELSE 0 END) AS weeklyMathMinutes \
+        FROM HAS \
+        LEFT JOIN Student ON Student.ID = HAS.Student_Id \
+        LEFT JOIN Minutes ON Minutes.Student_Id = Student.ID \
+        WHERE HAS.Adult_Id = ? \
+        GROUP BY Student.ID",
+        [req.params.adultid],
+        (err, data) => {
+            if (err) console.log(err);
+            else res.send(data);
+        }
+    );
 });
 
 // route for aggregating reading/math statistics

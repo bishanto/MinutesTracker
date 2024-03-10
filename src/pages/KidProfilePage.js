@@ -1,6 +1,6 @@
 import "./styleSheet.css";
 import React, { useState, useEffect, useRef } from "react";
-import Collapse from 'react-bootstrap/Collapse';
+import { Collapse } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import axios from 'axios';
 import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
