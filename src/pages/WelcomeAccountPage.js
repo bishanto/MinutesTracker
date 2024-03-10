@@ -36,14 +36,14 @@ export const WelcomeAccountPage = () => {
           ))}
         </div>
 
-        {/* Render reading minutes*/}
-        <div className="container-col">
+       {/* Render reading minutes*/}
+       <div className="container-col">
           <h2 className="align">Reading</h2>
           {tableData.map((data, index) => (
             <div className="min-container">
               <ReadingMinutesComponent
                 key={index}
-                readingMinutes={data.readMinutes}
+                readingMinutes={data.weeklyReadMinutes}
               />
             </div>
           ))}
@@ -56,7 +56,7 @@ export const WelcomeAccountPage = () => {
             <div className="min-container">
               <MathMinutesComponent
                 key={index}
-                mathMinutes={data.mathMinutes}
+                mathMinutes={data.weeklyMathMinutes}
               />
             </div>
           ))}
