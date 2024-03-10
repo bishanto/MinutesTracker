@@ -311,14 +311,13 @@ app.get('/statistics/adult/:adultid', (req, res) => {
 
 // route for aggregating reading/math statistics
 app.get('/statistics/:period', (req, res) => {
-	const queries = {
-		'week': 'SELECT SUM(`math_minutes`) `math`, SUM(`reading_minutes`) `reading` FROM `Minutes` GROUP BY YEAR(`date`), WEEK(`date`)',
-		'month': 'SELECT SUM(`math_minutes`) `math`, SUM(`reading_minutes`) `reading` FROM `Minutes` GROUP BY YEAR(`date`), MONTH(`date`)',
-		'trimester': 'SELECT SUM(`math_minutes`) `math`, SUM(`reading_minutes`) `reading` FROM `Minutes` GROUP BY TRIMESTER(`date`)'
-		// todo: write a function to get a trimester number from a date
-	};
+	if(!(req.params.period in periods)) {
+		res.send("Invalid request");
+		return;
+	}
 
-	db.query(queries[req.params.period], [], function(err, data) {
+	const period = periods[req.params.period];
+	db.query(`select SUM(math_minutes) math, SUM(reading_minutes) reading from Minutes group by ${period}`, [], function(err, data) {
 		if(err) console.log("An error has occurred");
 		else if(data.length > 0) {
 			let result = {"math": [], "reading": [], "total": []};
