@@ -1,6 +1,7 @@
 import './styleSheet.css';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
+import { Container, Row, Col, Card } from "react-bootstrap"; 
 import { useNavigate } from 'react-router-dom';
 
 
@@ -69,22 +70,27 @@ export const LoginPage = () => {
     const navigate = useNavigate();
     
     return(
-        <div class="outer-container">
-            <div class="middle-container">
-                <div class="inner-container">
-                    <form onSubmit={handleSubmit}>
-                        <h1>Login to Dragon Minutes</h1>
-                        <div>
-                            E-mail:<br/>
-                            <input type="email" placeholder="E-mail" name="email" onChange={handleInput}/><br/><br/>
-                            Password:<br/>
-                            <input type="password" placeholder="Password" name="password" onChange={handleInput}/><br/><br/>
-                        </div>
-                        <br/>
-                        <input type="submit" value="Login"/>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <Container fluid style={{paddingLeft: 0, paddingRight: 0}}> 
+			<Row className="justify-content-center"> 
+				<Col xs={12} md={6} lg={4}>
+					<a href="/"><img class="dragonimg" src="/images/dragonLogo.png" alt="Dragon_Logo"></img></a>
+					<Card style={{borderRadius:30, marginTop: 15}}>
+						<Card.Body>
+							<form onSubmit={handleSubmit}>
+							<Card.Title style={{fontSize:30}}>Login to Dragon Minutes</Card.Title> 
+							<Card.Text> 
+								<br/>E-mail:<br/>
+								<input type="email" placeholder="E-mail" name="email" onChange={handleInput}/><br/><br/>
+								Password:<br/>
+								<input type="password" placeholder="Password" name="password" onChange={handleInput}/><br/><br/>
+								
+								<input type="submit" value="Login"/>	
+							</Card.Text> 
+							</form>
+						</Card.Body> 
+					</Card> 
+				</Col>
+			</Row>
+		</Container>
     )
 }
