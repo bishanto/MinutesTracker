@@ -58,9 +58,9 @@ function checkLoginPromise(email) {
     });
 }
 
-function checkPasswordPromise(ID) {
+function checkIDpromise(email) {
 	return new Promise((resolve, reject)=>{
-        db.query(`Select password From Adult where ID = ?`,[ID],
+        db.query(`Select ID From Adult where login = ?`,[email],
             	function(err,data){
             if(err){
                 return reject(err);
@@ -79,6 +79,52 @@ function isAuthenticated (req, res, next) {
 	next("Unauthorized");
 }
 
+function RandomToken (ID) {
+	var aToken = '';
+	console.log(ID);
+	for(let i = 0; i < (20 - ID.toString().length); i++) {
+		switch(Math.floor(Math.random() * 35)) {
+			case 0: aToken += 'a';break;
+			case 1: aToken += 'b';break;
+			case 2: aToken += 'c';break;
+			case 3: aToken += 'd';break;
+			case 4: aToken += 'e';break;
+			case 5: aToken += 'f';break;
+			case 6: aToken += 'g';break;
+			case 7: aToken += 'h';break;
+			case 8: aToken += 'i';break;
+			case 9: aToken += 'j';break;
+			case 10: aToken += 'k';break;
+			case 11: aToken += 'l';break;
+			case 12: aToken += 'm';break;
+			case 13: aToken += 'n';break;
+			case 14: aToken += 'o';break;
+			case 15: aToken += 'p';break;
+			case 16: aToken += 'q';break;
+			case 17: aToken += 'r';break;
+			case 18: aToken += 's';break;
+			case 19: aToken += 't';break;
+			case 20: aToken += 'u';break;
+			case 21: aToken += 'v';break;
+			case 22: aToken += 'w';break;
+			case 23: aToken += 'x';break;
+			case 24: aToken += 'y';break;
+			case 25: aToken += 'z';break;
+			case 26: aToken += 'A';break;
+			case 27: aToken += 'B';break;
+			case 28: aToken += 'N';break;
+			case 29: aToken += 'E';break;
+			case 30: aToken += 'T';break;
+			case 31: aToken += 'R';break;
+			case 32: aToken += 'C';break;
+			case 33: aToken += 'P';break;
+			case 34: aToken += 'Z';break;
+			case 35: aToken += 'W';break;
+		}
+	}
+	aToken += ID;
+	return aToken;
+}
 
 const port = 8081
 app.listen(port,
@@ -93,7 +139,6 @@ app.get('/', (req,res)=> {
 		res.redirect('/welcome');
 	}
 	else{
-		console.log("what?");
 		res.sendFile(path + "index.html");
 	}
 });
@@ -386,23 +431,31 @@ app.post('/forgetpassword',async(req,res)=> {
 		return res.json("Incorrect Login");
 	}
 	else{
-		db.query(`Select ID From Adult where login = ?`,[email],
-            		function(err,data){
-				if(err) throw err;
-				req.session.adultId = data[0]["ID"];
-		});
+		const checkID = await checkIDpromise(email);
+		req.session.adultId = checkID[0]["ID"];
+
+		const token = RandomToken(req.session.adultId);//One time token
 
 		const mailData = {
 			from: '', // your email here
   			to: email,
-  			subject: 'Forget Password from MinutesTracker',
-  			text: 'You request to change password!',
+  			subject: 'Forget Password from Dragon Minutes',
+  			text: 'You request to change password!\n\n'+
+				'Please click the link below to process to reset password\n\n' +
+				'http://' + req.headers.host + '/reset/' + token + '\n' + 
+				'If you did not request for a password reset for the Dragon Minutes,' + 
+				'please ignore this email!\n',
 		};
 		
 		emailsender.sendMail(mailData, function (err, info) {
    			if(err)
      				console.log(err)
 		});
-		return res.json("Success");
+		return res.json('Success');
 	}
+})
+
+app.get('/reset/:token', function(req,res) {
+	req.session.AdultID = parseInt(req.params.token.replace(/[^0-9]/g, ''));
+	res.redirect('/changepassword');
 })

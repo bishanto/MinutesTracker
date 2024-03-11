@@ -13,8 +13,8 @@ export const ForgetPassword = () => {
 	event.preventDefault();
 	axios.post('/forgetpassword', values).then(res => {
 		if(res.data === "Success") {
-			alert("Redirecting!");
-			navigate('/ChangePassword');
+			alert("You will receive an confirmation email!Please follow the instruction on the email!");
+			navigate('/');
 		}
 		else if (res.data === "Incorrect Login") {
 				document.getElementsByName("email").forEach(value => {value.style.boxShadow = "0 0 5px 1px red";});
