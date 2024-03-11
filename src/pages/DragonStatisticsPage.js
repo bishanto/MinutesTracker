@@ -1,3 +1,4 @@
+import axios from 'axios';
 import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 
 export const DragonStatisticsPage = () => {
