@@ -5,9 +5,17 @@
 
 a {
 	text-decoration: none;
-	color: black;
+	color: white;
 }
 
 a:hover {
 	color: #FFCC00;
+}
+
+.div1 {
+	padding:50px;
+}
+
+.div2 {
+	padding-bottom: 50px;
 }

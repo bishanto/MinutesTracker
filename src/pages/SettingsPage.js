@@ -1,6 +1,5 @@
 import "./settingsStyle.css";
 import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
-import { Container, Row, Col, Card } from "react-bootstrap"; 
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -116,40 +115,29 @@ export const SettingsPage = () => {
   };
 
   return (
-    <Container fluid style={{paddingLeft: 0, paddingRight: 0}}> 
+    <div>
       <NavbarComponent />
-		<Row className="justify-content-center"> 
-			<Col xs={12} md={6} lg={4}>
-				<Card style={{borderRadius:30, marginTop: 15}}>
-					<Card.Body>
-						<Card.Title style={{fontSize:30}}>Settings</Card.Title> 
-						<Card.Text> 
-							<div className="first-button-div">
-								<button className="button" onClick={() => setShowPopout(!showPopout)}>Remove a Profile</button>
-							</div>	
-							{showPopout && (
-							<div className="dim-overlay">
-								<PopoutTable
-									tableData={tableData}
-									checkedRows={checkedRows}
-									handleCheckboxChange={handleCheckboxChange}
-									handleSubmit={handleSubmit}
-									handleCancel={handleCancel}
-									isCheckboxChecked={isCheckboxChecked}
-									handleMainCheckboxChange={handleMainCheckboxChange} 
-								/>
-							</div>
-							)}
-							<div>
-								<Link to='/changepassword'>
-								  <button className="button">Change Password</button>
-								</Link>
-							</div><br/>
-						</Card.Text> 
-					</Card.Body> 
-				</Card> 
-			</Col>
-		</Row>
-	</Container>
+      <div className="first-button-div">
+        <button className="button" onClick={() => setShowPopout(!showPopout)}>Remove a Profile</button>
+      </div>
+      {showPopout && (
+        <div className="dim-overlay">
+          <PopoutTable
+            tableData={tableData}
+            checkedRows={checkedRows}
+            handleCheckboxChange={handleCheckboxChange}
+            handleSubmit={handleSubmit}
+            handleCancel={handleCancel}
+            isCheckboxChecked={isCheckboxChecked}
+            handleMainCheckboxChange={handleMainCheckboxChange} 
+          />
+        </div>
+      )}
+      <div>
+        <Link to='/changepassword'>
+          <button className="button">Change Password</button>
+        </Link>
+      </div>
+    </div>
   );
 };

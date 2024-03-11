@@ -1,6 +1,5 @@
 import "./styleSheet.css";
 import React, { useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap"; 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
@@ -62,76 +61,72 @@ export const AddProfilePage = () => {
   const navigate = useNavigate();
 
   return (
-
-	<Container fluid style={{paddingLeft: 0, paddingRight: 0}}> 
-		<NavbarComponent/>
-		<Row className="justify-content-center"> 
-			<Col xs={12} md={6} lg={4}>
-				<Card style={{borderRadius:30, marginTop: 15}}>
-					<Card.Body>
-						<form onSubmit={handleSubmit}>
-                        <Card.Title style={{fontSize:30}}>Add A New Kid's Profile</Card.Title> 
-                        <Card.Text> 
-                            First Name
-						  <br />
-						  <input
-							type="text"
-							placeholder="First Name"
-							name="firstName"
-							onChange={handleChange}
-							value={formData.firstName}
-						  />
-						  <br />
-						  Last Name
-						  <br />
-						  <input
-							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							onChange={handleChange}
-							value={formData.lastName}
-						  />
-						  <br />
-						  Grade
-						  <br />
-						  <input
-							type="number"
-							min={0}
-							max={12}
-							name="grade"
-							placeholder="Grade"
-							value={formData.grade}
-							onChange={handleChange}
-						  />
-						  <br />
-						  Classroom Teacher
-						  <br />
-						  <select
-							id="dropdown"
-							name="teacher"
-							value={formData.teacher}
-							onChange={handleChange}
-						  >
-							<option value="" hidden>
-							  -- Select A Teacher--
-							</option>
-							// Create  a dropdown for every teacher in database 
-							{tableData.map((data, index) => (
-							<option key={index}>{data.TeacherLastName}</option>
-							))}
-							</select>
-							<br />
-							<br />
-							<input type="submit" value="Confirm" disabled={isFieldFull()} />
-							&nbsp;&nbsp;
-							<button onClick={cancel}>Cancel</button>
-                        </Card.Text> 
-						</form>
-                    </Card.Body> 
-                </Card> 
-            </Col>
-		</Row>
-	</Container>
-
+    <div class="outer-container">
+      <div class="middle-container">
+      <NavbarComponent />
+        <div class="inner-container">
+          <form onSubmit={handleSubmit}>
+            <h1>Add A New Kid's Profile</h1>
+            <div>
+              First Name
+              <br />
+              <input
+                type="text"
+                placeholder="First Name"
+                name="firstName"
+                onChange={handleChange}
+                value={formData.firstName}
+              />
+              <br />
+              Last Name
+              <br />
+              <input
+                type="text"
+                placeholder="Last Name"
+                name="lastName"
+                onChange={handleChange}
+                value={formData.lastName}
+              />
+              <br />
+              Grade
+              <br />
+              <input
+                type="number"
+                min={0}
+                max={12}
+                name="grade"
+                placeholder="Grade"
+                value={formData.grade}
+                onChange={handleChange}
+              />
+              <br />
+              Classroom Teacher
+              <br />
+              <select
+                id="dropdown"
+                name="teacher"
+                value={formData.teacher}
+                onChange={handleChange}
+              >
+                <option value="" hidden>
+                  -- Select A Teacher--
+                </option>
+                {/* Create  a dropdown for every teacher in database */}
+                {tableData.map((data, index) => (
+                  <option key={index}>{data.TeacherLastName}</option>
+                ))}
+              </select>
+            </div>
+            <br />
+            <br />
+            <input type="submit" value="Confirm" disabled={isFieldFull()} />
+            &nbsp;&nbsp;
+            <div>
+              <button onClick={cancel}>Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
