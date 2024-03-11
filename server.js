@@ -459,3 +459,53 @@ app.get('/reset/:token', function(req,res) {
 	req.session.AdultID = parseInt(req.params.token.replace(/[^0-9]/g, ''));
 	res.redirect('/changepassword');
 })
+
+app.post('/dragonstatistics/mathmin/:period',async(req,res)=> {
+
+	if(period == 'week') {
+		db.query(`SELECT SUM(CASE WHEN date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) THEN math_minutes ELSE 0 END) From Minutes`,
+			[],function(err,data){
+        			if(err) throw err;
+				return res.json(data);
+		});
+	}
+	else if(period == 'month') {
+		db.query(`SELECT SUM(CASE WHEN date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) THEN math_minutes ELSE 0 END) From Minutes`,
+			[],function(err,data){
+        			if(err) throw err;
+				return res.json(data);
+		});
+	}
+	else if(period == 'trimester') {
+		db.query(`SELECT SUM(math_minutes) From Minutes`,
+			[],function(err,data){
+        			if(err) throw err;
+				return res.json(data);
+		});
+	}
+})
+
+app.post('/dragonstatistics/readingmin/:period',async(req,res)=> {
+	
+	if(period == 'week') {
+		db.query(`SELECT SUM(CASE WHEN date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) THEN reading_minutes ELSE 0 END) From Minutes`,
+			[],function(err,data){
+        			if(err) throw err;
+				return res.json(data);
+		});
+	}
+	else if(period == 'month') {
+		db.query(`SELECT SUM(CASE WHEN date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) THEN reading_minutes ELSE 0 END) From Minutes`,
+			[],function(err,data){
+        			if(err) throw err;
+				return res.json(data);
+		});
+	}
+	else if(period == 'trimester') {
+		db.query(`SELECT SUM(reading_minutes) From Minutes`,
+			[],function(err,data){
+        			if(err) throw err;
+				return res.json(data);
+		});
+	}
+})
