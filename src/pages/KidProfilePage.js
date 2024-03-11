@@ -86,7 +86,7 @@ export const KidProfilePage = () => {
 				</div>
 			</Collapse> <br/>
 			<form onSubmit={handleSubmit}>
-			<h4 ref = {ref}>Activity: {text}</h4>
+			<h4  ref = {ref}>Activity: {text}</h4>
 			
 			<button onClick={readingFunc} disabled = {rBtnDisabled}>Reading</button><button onClick={mathFunc} disabled = {mBtnDisabled}>Math</button><br/><br/>
 			<Collapse in={open2}>

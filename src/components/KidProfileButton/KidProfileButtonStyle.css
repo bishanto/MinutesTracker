@@ -1,15 +1,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding-bottom: 8px;
+  padding-bottom: 0px;
 }
 
 .button {
-  padding: 15px 20px;
-  background-color: #41cbf6;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: #FFE16A;
   color: black;
   border-radius: 5px;
   cursor: pointer;
   width: 180px;
   align-self: center;
+}
+*{
+  font-family: 'Madimi One';
+  color: #023020;
+
 }

@@ -6,6 +6,8 @@ import { KidProfileButton } from "../components/KidProfileButton/KidProfileButto
 import { MathMinutesComponent } from "../components/MathMinutesComponent/MathMinutesComponent.js";
 import { ReadingMinutesComponent } from "../components/ReadingMinutesComponent/ReadingMinutesComponent.js";
 
+
+
 export const WelcomeAccountPage = () => {
   // Variables to test component loops
   const [tableData, setTableData] = useState([]);
