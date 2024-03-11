@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
+import { Container, Row, Col, Card } from "react-bootstrap"; 
 import axios from 'axios';
 import NavbarComponent from "../components/NavbarComponent/NavbarComponent.js";
 
@@ -19,7 +20,7 @@ export const ChangePassword = () => {
     }
 
     const cancel = () => {
-    navigate("/welcome");
+    navigate("/settings");
     };
 
     const handleSubmit = (event) => {
@@ -57,26 +58,30 @@ export const ChangePassword = () => {
 	}, [values.password, values.password_confirm]);
 
     return (
-        <div class="outer-container">
-            <div class="middle-container">
-            <NavbarComponent />
-                <div class="inner-container">
-                    <form onSubmit={handleSubmit}>
-                        <h1>Change Password</h1>
-                        <div>
-                            Current Password:<br/>
-                            <input type="password" name="current_password" placeholder="Current Password" onChange={handleInput}/><br/>
-                            Password:<br/>
-                            <input type="password" name="password" placeholder="Password" onChange={handleInput}/><br/>
-                            Confirm Password:<br/>
-                            <input type="password" name="password_confirm" placeholder="Confirm Password" onChange={handleInput}/><br/>
-                        </div>
-                        <br/><br/>
-                        <input type="submit" value="Confirm"/>&nbsp;&nbsp;
-                        <button onClick={cancel}>Cancel</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <Container fluid style={{paddingLeft: 0, paddingRight: 0}}> 
+			<NavbarComponent/>
+			<Row className="justify-content-center"> 
+				<Col xs={12} md={6} lg={4}>
+					<Card style={{borderRadius:30, marginTop: 15}}>
+						<Card.Body>
+							<form onSubmit={handleSubmit}>
+							<Card.Title style={{fontSize:30}}>Change Password</Card.Title> 
+							<Card.Text> 
+							   Current Password:<br/>
+								<input type="password" name="current_password" placeholder="Current Password" onChange={handleInput}/><br/>
+								Password:<br/>
+								<input type="password" name="password" placeholder="Password" onChange={handleInput}/><br/>
+								Confirm Password:<br/>
+								<input type="password" name="password_confirm" placeholder="Confirm Password" onChange={handleInput}/><br/>
+								<br/>
+								<input type="submit" value="Confirm"/>&nbsp;&nbsp;
+								<button onClick={cancel}>Cancel</button>
+							</Card.Text> 
+							</form>
+						</Card.Body> 
+					</Card> 
+				</Col>
+			</Row>
+		</Container>
     );
 }
